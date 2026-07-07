@@ -3,12 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AirBox Desktop</title>
+    <title>AirBox Desktop - 资料管理</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* 临时样式 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Microsoft YaHei", sans-serif; background: #f5f7fa; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+        h1 { font-size: 24px; color: #1a2332; margin-bottom: 20px; border-bottom: 2px solid #eef2f7; padding-bottom: 12px; }
+        .resource-card { background: #fafbfc; border: 1px solid #e8ecf1; border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; transition: 0.2s; }
+        .resource-card:hover { border-color: #b0c4de; }
+        .resource-title { font-size: 18px; font-weight: 600; color: #1a2332; display: flex; justify-content: space-between; align-items: center; }
+        .resource-meta { font-size: 13px; color: #7e8c9e; margin: 6px 0 10px 0; }
+        .resource-remark { background: #f0f4fe; padding: 6px 12px; border-radius: 6px; font-size: 14px; color: #2c3e50; margin: 8px 0; }
+        .btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+        .btn { padding: 6px 16px; border: none; border-radius: 6px; font-size: 13px; cursor: pointer; transition: 0.2s; background: #eef2f7; color: #1a2332; }
+        .btn-primary { background: #2b6cff; color: #fff; }
+        .btn-primary:hover { background: #1a56e0; }
+        .btn-success { background: #10b981; color: #fff; }
+        .btn-success:hover { background: #059669; }
+        .btn-danger { background: #ef4444; color: #fff; }
+        .btn-danger:hover { background: #dc2626; }
+        .btn-warning { background: #f59e0b; color: #fff; }
+        .btn-warning:hover { background: #d97706; }
+        .btn-fav { background: #f472b6; color: #fff; }
+        .btn-fav:hover { background: #ec4899; }
+        .btn-fav.active { background: #ec4899; box-shadow: 0 0 0 2px #f9a8d4; }
+        .empty-state { text-align: center; color: #9ca3af; padding: 40px 0; }
+        .loading { text-align: center; color: #6b7280; padding: 20px; }
+        .detail-panel { margin-top: 20px; border-top: 2px solid #eef2f7; padding-top: 20px; }
+        .detail-panel h3 { font-size: 16px; color: #374151; margin-bottom: 12px; }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>AirBox Desktop</h1>
+        <h1>📦 AirBox · 资料管理</h1>
+        <div id="resourceList"><div class="loading">加载中...</div></div>
+        <div id="detailPanel" class="detail-panel" style="display:none;">
+            <h3>📄 资料详情</h3>
+            <div id="detailContent"></div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
