@@ -1,10 +1,22 @@
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
+
+const UPLOAD_DIR = path.join(__dirname, '../uploads');
+
+function ensureUploadDir() {
+    if (!fs.existsSync(UPLOAD_DIR)) {
+        fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+    }
+}
+
+ensureUploadDir();
 
 // 设置文件存储位置
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, '../uploads'));
+        ensureUploadDir();
+        cb(null, UPLOAD_DIR);
     },
     filename: function (req, file, cb) {
         // 使用时间戳 + 原文件名避免冲突

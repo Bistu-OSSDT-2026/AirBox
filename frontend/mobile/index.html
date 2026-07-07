@@ -3,12 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AirBox Mobile</title>
+    <title>AirBox 资料上传</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>AirBox Mobile</h1>
+        <header class="page-header">
+            <h1>AirBox 资料上传</h1>
+            <p>支持上传文字、图片和文件，方便在电脑端整理查看。</p>
+        </header>
+
+        <form id="uploadForm" class="upload-form">
+            <label for="title">标题</label>
+            <input type="text" id="title" name="title" placeholder="可选，留空将自动生成标题">
+
+            <label for="content">文字内容</label>
+            <textarea id="content" name="content" rows="5" placeholder="输入要保存的文字资料"></textarea>
+
+            <label for="file">图片或文件</label>
+            <input type="file" id="file" name="file">
+
+            <label for="tags">标签</label>
+            <input type="text" id="tags" name="tags" placeholder="例如：学习,图片,工作">
+
+            <button type="submit" id="submitBtn">上传资料</button>
+        </form>
+
+        <div id="message" class="message" aria-live="polite"></div>
     </div>
     <script src="script.js"></script>
 </body>
