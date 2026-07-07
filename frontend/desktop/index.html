@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirBox Desktop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+
+        <!-- 顶部搜索栏 -->
+        <header class="top-bar">
+            <div class="search-box">
+                <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                    <circle cx="11" cy="11" r="7.5"/>
+                    <line x1="16.5" y1="16.5" x2="21" y2="21"/>
+                </svg>
+                <input type="text" id="searchInput" placeholder="搜索资料标题或内容…" autocomplete="off">
+                <span id="activeFilterHint" class="filter-hint" style="display:none;"></span>
+                <button id="clearBtn" class="clear-btn" title="清空筛选条件" style="display:none;">&times;</button>
+            </div>
+            <button id="toggleSidebar" class="toggle-sidebar-btn" title="标签管理">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+                </svg>
+            </button>
+        </header>
+
+        <!-- 主体区域 -->
+        <div class="main-layout">
+
+            <!-- 标签侧边面板 -->
+            <aside id="tagSidebar" class="tag-sidebar">
+                <div class="sidebar-header">
+                    <h3>标签管理</h3>
+                </div>
+
+                <!-- 新增标签 -->
+                <div class="tag-add">
+                    <input type="text" id="tagInput" placeholder="输入标签名">
+                    <button id="addTagBtn">添加</button>
+                </div>
+
+                <!-- 标签列表 -->
+                <ul id="tagList" class="tag-list"></ul>
+            </aside>
+
+            <!-- 资料时间轴列表 -->
+            <main class="timeline-main">
+                <div class="timeline-header">
+                    <h2>资料列表</h2>
+                    <span id="totalCount" class="total-count"></span>
+                </div>
+
+                <!-- 加载状态 -->
+                <div id="loadingState" class="loading-state">
+                    <div class="spinner"></div>
+                    <p>加载中…</p>
+                </div>
+
+                <!-- 空状态 -->
+                <div id="emptyState" class="empty-state" style="display:none;">
+                    <p>暂无资料</p>
+                </div>
+
+                <!-- 时间轴 -->
+                <div id="timeline" class="timeline"></div>
+
+                <!-- 加载更多 -->
+                <div id="loadMoreWrap" class="load-more-wrap" style="display:none;">
+                    <button id="loadMoreBtn" class="load-more-btn">加载更多</button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
