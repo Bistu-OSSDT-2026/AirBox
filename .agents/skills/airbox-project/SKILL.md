@@ -88,7 +88,7 @@ AirBox/
 
 ---
 
-# Resource 数据结构
+# Resource 数据结构（对应数据库表 resources）
 
 所有资料统一使用 Resource 数据结构。
 
@@ -132,6 +132,8 @@ DELETE /api/manage/:id
 
 新增接口时，应保持统一命名风格。
 
+数据库统一使用 resources 表，不要创建 Resource、resource 或其他同义表名。
+
 ---
 
 # Git 协作规范
@@ -160,7 +162,10 @@ feature/manage
 
 4. 合并到 main
 
-不要直接在 main 分支开发。
+项目负责人（A）可以直接维护 main 分支。
+
+其他成员应从 main 创建自己的功能分支进行开发，
+完成后通过 Pull Request 合并回 main。
 
 ---
 

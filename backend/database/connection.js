@@ -28,8 +28,26 @@ function getDb() {
     // 启用外键约束
     db.run('PRAGMA foreign_keys = ON;');
 
-    // TODO: 在此处添加数据库表初始化代码
-    // 例如：创建 resources 表、tags 表等
+    // 初始化 Resource 表
+    db.run(`
+        CREATE TABLE IF NOT EXISTS resources (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT,
+            type TEXT,
+            content TEXT,
+            file_url TEXT,
+            tags TEXT,
+            file_size INTEGER DEFAULT 0,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `, (err) => {
+        if (err) {
+            console.error('Failed to create resources table:', err.message);
+        } else {
+            console.log('Resource table is ready.');
+        }
+    });
 
     return db;
 }
