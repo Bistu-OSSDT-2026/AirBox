@@ -62,7 +62,7 @@ async function showDetail(id) {
                 <p><strong>备注：</strong>${r.remark || '无'}</p >
                 <p><strong>收藏状态：</strong>${r.favorite ? '⭐ 已收藏' : '☆ 未收藏'}</p >
                 <p><strong>创建时间：</strong>${r.created_at ? new Date(r.created_at).toLocaleString() : '未知'}</p >
-                ${r.file_url ? `<p><strong>文件：</strong><a href=" " target="_blank">查看文件</a ></p >` : ''}
+               ${r.file_url ? `<p><strong>文件：</strong><a href="${r.file_url} " target="_blank">查看文件</a ></p >` : ''}
             </div>
         `;
     } catch (err) {
