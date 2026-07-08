@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirBox - 资料搜索</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="search-page">
+        <div class="search-header">
+            <h1 class="search-title">🔍 资料搜索</h1>
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input"
+                    placeholder="输入关键词搜索标题或内容..." autocomplete="off" />
+                <button id="searchBtn" class="search-btn">搜索</button>
+            </div>
+            <!-- ZCode AI 生成 - 时间区间 -->
+            <div class="time-filter" id="timeFilter">
+                <span class="time-filter-label">时间区间：</span>
+                <input type="date" id="startDate" class="time-input" title="起始日期" />
+                <span class="time-filter-sep">—</span>
+                <input type="date" id="endDate" class="time-input" title="结束日期" />
+                <button id="clearTimeBtn" class="time-clear-btn">清除</button>
+            </div>
+        </div>
+
+        <!-- ZCode AI 生成 - 标签筛选 -->
+        <div class="tag-filter-bar" id="tagFilterBar">
+            <span class="tag-filter-label">标签筛选：</span>
+            <div class="tag-list" id="tagList"></div>
+        </div>
+
+        <!-- ZCode AI 生成 - 分页 -->
+        <div class="pagination-bar" id="paginationBar">
+            <button id="prevPageBtn" class="page-btn" disabled>上一页</button>
+            <span class="page-info" id="pageInfo">第 1 页</span>
+            <button id="nextPageBtn" class="page-btn" disabled>下一页</button>
+        </div>
+
+        <div class="search-status" id="searchStatus"></div>
+        <div class="timeline" id="timeline"></div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
