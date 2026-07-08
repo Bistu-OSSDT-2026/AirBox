@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 
 // 初始化路由
+const resourceRoutes = require('./backend/routes/resource');
 const uploadRouter = require('./backend/routes/upload');
 const resourceRouter = require('./backend/routes/resource');
 const searchRouter = require('./backend/routes/search');
@@ -26,6 +27,7 @@ app.use('/desktop', express.static(path.join(__dirname, 'frontend/desktop')));
 app.use('/uploads', express.static(path.join(__dirname, 'backend/uploads')));
 
 // API 路由
+app.use('/api/resources', resourceRoutes);
 app.use('/api/upload', uploadRouter);
 app.use('/api/resources', resourceRouter);
 app.use('/api/search', searchRouter);
