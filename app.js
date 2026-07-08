@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 
 // 初始化路由
-const resourceRoutes = require('./backend/routes/resource');
+
 const uploadRouter = require('./backend/routes/upload');
 const resourceRouter = require('./backend/routes/resource');
 const searchRouter = require('./backend/routes/search');

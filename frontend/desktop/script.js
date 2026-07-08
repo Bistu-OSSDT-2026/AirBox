@@ -64,9 +64,14 @@ function renderResources(resources) {
         const createdTime = item.created_at ? new Date(item.created_at).toLocaleString('zh-CN') : '未知时间';
 
         let thumbnailHtml = '';
-        if (item.type === '图片' && item.file_path) {
-            thumbnailHtml = `< img src="${API_BASE}${item.file_path}" style="width:100%;height:140px;object-fit:cover;border-radius:8px;margin-bottom:10px;" />`;
-        }
+        if (item.type === 'image' && item.file_url) {
+    thumbnailHtml = `
+        <img
+            src="${item.file_url}"
+            style="width:100%;height:140px;object-fit:cover;border-radius:8px;margin-bottom:10px;"
+        />
+    `;
+}
 
         html += `
             <div class="resource-card" onclick="showDetail(${item.id})">
@@ -107,14 +112,30 @@ async function showDetail(id) {
         document.getElementById('modalType').textContent = data.type || '未分类';
 
         let bodyHtml = '';
-        if (data.type === '图片' && data.file_path) {
-            bodyHtml = `< img src="${API_BASE}${data.file_path}" style="max-width:100%;border-radius:8px;" />`;
-        } else if (data.file_path && (data.file_path.endsWith('.pdf') || data.file_path.endsWith('.docx') || data.file_path.endsWith('.pptx'))) {
-            bodyHtml = `
-                <p>📎 文件已上传</p >
-                <a href=" " target="_blank" class="file-link">📄 查看文件</a >
-            `;
-        } else {
+        if (data.type === 'image' && data.file_url) {
+    bodyHtml = `
+        <img
+            src="${data.file_url}"
+            style="max-width:100%;border-radius:8px;"
+        />
+    `;
+} else if (
+    data.file_url &&
+    (
+        data.file_url.endsWith('.pdf') ||
+        data.file_url.endsWith('.doc') ||
+        data.file_url.endsWith('.docx') ||
+        data.file_url.endsWith('.ppt') ||
+        data.file_url.endsWith('.pptx')
+    )
+) {
+    bodyHtml = `
+        <p>📎 文件已上传</p>
+        <a href="${data.file_url}" target="_blank" class="file-link">
+            📄 查看文件
+        </a>
+    `;
+} else {
             bodyHtml = escapeHtml(data.content || '暂无内容');
         }
 

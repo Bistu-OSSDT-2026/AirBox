@@ -9,9 +9,9 @@ const router = express.Router();
 const path = require('path');
 
 // ========== 数据库配置 ==========
-const sqlite3 = require('sqlite3').verbose();
-const dbPath = path.resolve(__dirname, '../../database/airbox.db');
-const db = new sqlite3.Database(dbPath);
+const { getDb } = require('../database/connection');
+
+const db = getDb();
 
 // ============================================================
 // 接口1：获取所有资料列表
@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
             title, 
             type, 
             content, 
-            file_path, 
+            file_url, 
             tags, 
             created_at 
         FROM resources 
@@ -66,7 +66,7 @@ router.get('/:id', (req, res) => {
             title, 
             type, 
             content, 
-            file_path, 
+            file_url, 
             tags, 
             created_at 
         FROM resources 
