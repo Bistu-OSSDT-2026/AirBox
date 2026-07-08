@@ -22,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 // 静态文件服务 - 前端页面
 app.use('/mobile', express.static(path.join(__dirname, 'frontend/mobile')));
 app.use('/desktop', express.static(path.join(__dirname, 'frontend/desktop')));
+app.use('/search', express.static(path.join(__dirname, 'frontend/search')));
 
 // 静态文件服务 - 上传文件
 app.use('/uploads', express.static(path.join(__dirname, 'backend/uploads')));
