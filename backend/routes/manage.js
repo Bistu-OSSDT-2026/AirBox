@@ -1,30 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const sqlite3 = require('sqlite3');
-const path = require('path');
+const { getDb } = require('../database/connection');
 
-// 数据库文件路径（相对于项目根目录）
-const dbPath = path.join(__dirname, '../database/database.db');
-const db = new sqlite3.Database(dbPath, (err) => {
-    if (err) {
-        console.error('数据库连接失败:', err.message);
-    } else {
-        console.log('已连接到资料管理数据库');
-    }
-});
-
-// ==================== PUT /api/manage/:id ====================
-// 更新资料（支持 title, remark, favorite 字段）
+// PUT /api/manage/:id - 更新资料（支持 title、remark、favorite）
 router.put('/:id', (req, res) => {
+    const db = getDb();
     const id = req.params.id;
     const { title, remark, favorite } = req.body;
 
-    // 检查是否有字段被传递
     if (title === undefined && remark === undefined && favorite === undefined) {
         return res.status(400).json({ error: '至少需要提供一个更新字段' });
     }
 
-    // 先查询资料是否存在
+    // 先检查资料是否存在
     db.get('SELECT * FROM resources WHERE id = ?', [id], (err, row) => {
         if (err) {
             console.error('查询失败:', err.message);
@@ -46,9 +34,8 @@ router.put('/:id', (req, res) => {
             values.push(remark);
         }
         if (favorite !== undefined) {
-            const fav = favorite ? 1 : 0;
             fields.push('favorite = ?');
-            values.push(fav);
+            values.push(favorite ? 1 : 0);
         }
         values.push(id);
 
@@ -59,9 +46,9 @@ router.put('/:id', (req, res) => {
                 console.error('更新失败:', err.message);
                 return res.status(500).json({ error: '更新资料失败' });
             }
+            // 返回更新后的资料
             db.get('SELECT * FROM resources WHERE id = ?', [id], (err, updatedRow) => {
                 if (err) {
-                    console.error('获取更新后资料失败:', err.message);
                     return res.status(500).json({ error: '更新成功但获取详情失败' });
                 }
                 res.json(updatedRow);
@@ -70,9 +57,9 @@ router.put('/:id', (req, res) => {
     });
 });
 
-// ==================== DELETE /api/manage/:id ====================
-// 删除资料
+// DELETE /api/manage/:id - 删除资料
 router.delete('/:id', (req, res) => {
+    const db = getDb();
     const id = req.params.id;
 
     db.get('SELECT * FROM resources WHERE id = ?', [id], (err, row) => {
@@ -94,7 +81,7 @@ router.delete('/:id', (req, res) => {
     });
 });
 
-// ==================== GET /api/manage (测试用) ====================
+// GET /api/manage/ - 测试用
 router.get('/', (req, res) => {
     res.json({ status: 'TODO' });
 });

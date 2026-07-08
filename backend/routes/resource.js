@@ -1,5 +1,8 @@
+const express = require('express');
+const router = express.Router();
 const { getDb } = require('../database/connection');
 
+// GET /api/resources - 获取所有资料列表
 router.get('/', (req, res) => {
     const db = getDb();
     db.all('SELECT * FROM resources ORDER BY created_at DESC', (err, rows) => {
@@ -11,6 +14,7 @@ router.get('/', (req, res) => {
     });
 });
 
+// GET /api/resources/:id - 获取单个资料详情
 router.get('/:id', (req, res) => {
     const db = getDb();
     const id = req.params.id;
@@ -25,3 +29,5 @@ router.get('/:id', (req, res) => {
         res.json(row);
     });
 });
+
+module.exports = router;
