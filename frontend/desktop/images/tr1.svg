@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A2332"/>
+      <stop offset="100%" stop-color="#0F1923"/>
+    </linearGradient>
+    <linearGradient id="cubeTop" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6DB5F0"/>
+      <stop offset="100%" stop-color="#4A90D9"/>
+    </linearGradient>
+    <linearGradient id="cubeLeft" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3A7BC8"/>
+      <stop offset="100%" stop-color="#2D6DA8"/>
+    </linearGradient>
+    <linearGradient id="cubeRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5BA0E8"/>
+      <stop offset="100%" stop-color="#4A90D9"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4A90D9"/>
+      <stop offset="100%" stop-color="#8BC4F0"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="20" flood-color="#4A90D9" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- 3D 盒子 - 右面 -->
+  <polygon points="250,120 400,180 400,380 250,320" fill="url(#cubeRight)" filter="url(#shadow)"/>
+  
+  <!-- 3D 盒子 - 顶面 -->
+  <polygon points="250,120 400,180 250,240 100,180" fill="url(#cubeTop)"/>
+  
+  <!-- 3D 盒子 - 左面 -->
+  <polygon points="100,180 250,240 250,320 100,260" fill="url(#cubeLeft)"/>
+
+  <!-- 盒子右面高光线 -->
+  <line x1="260" y1="170" x2="260" y2="310" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+
+  <!-- 盒子上方漂浮的文件图标 -->
+  <rect x="170" y="60" width="60" height="75" rx="6" fill="#1A2332" stroke="#4A90D9" stroke-width="2" filter="url(#shadow)"/>
+  <line x1="182" y1="78" x2="218" y2="78" stroke="#4A90D9" stroke-width="2" rx="1"/>
+  <line x1="182" y1="90" x2="208" y2="90" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <line x1="182" y1="100" x2="212" y2="100" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+  <line x1="182" y1="110" x2="195" y2="110" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+  <polygon points="218,60 218,78 230,66" fill="#4A90D9"/>
+
+  <!-- 另一个漂浮文件 -->
+  <rect x="280" y="40" width="55" height="65" rx="5" fill="#1A2332" stroke="#5BA0E8" stroke-width="1.5" opacity="0.8" filter="url(#shadow)"/>
+  <line x1="292" y1="55" x2="323" y2="55" stroke="#5BA0E8" stroke-width="1.5"/>
+  <line x1="292" y1="65" x2="318" y2="65" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+  <line x1="292" y1="75" x2="310" y2="75" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+  <polygon points="325,40 325,54 335,45" fill="#5BA0E8"/>
+
+  <!-- 同步箭头 -->
+  <g transform="translate(130, 290)">
+    <path d="M0,0 C20,-25 40,-25 60,0" stroke="url(#accent)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <polygon points="56,-4 64,4 56,4" fill="#4A90D9"/>
+  </g>
+  <g transform="translate(310, 290)">
+    <path d="M0,0 C-20,-25 -40,-25 -60,0" stroke="url(#accent)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>
+    <polygon points="-56,-4 -64,4 -56,4" fill="#8BC4F0"/>
+  </g>
+
+  <!-- 底部文字 -->
+  <text x="250" y="460" text-anchor="middle" fill="#4A90D9" font-family="Roboto, sans-serif" font-size="32" font-weight="900" letter-spacing="6">AIRBOX</text>
+  <text x="250" y="486" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-family="Roboto, sans-serif" font-size="13" font-weight="400" letter-spacing="8">跨设备资料收集</text>
+</svg>
