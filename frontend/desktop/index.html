@@ -3,259 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AirBox - 资料库</title>
+    <title>AirBox Desktop - 资料管理</title>
+    <link rel="stylesheet" href="style.css">
     <style>
+        /* 临时样式 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f7fa; color: #333; padding: 20px;
-        }
-
-        .container { max-width: 1200px; margin: 0 auto; }
-
-        /* ---- header ---- */
-        .header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 0; border-bottom: 2px solid #e8ecf1; margin-bottom: 24px;
-        }
-        .header h1 { font-size: 28px; font-weight: 700; color: #1a73e8; }
-        .header .subtitle { color: #888; font-size: 14px; }
-
-        /* ===== ZCode AI ===== 搜索区 ===== */
-        .search-section {
-            background: #fff; border-radius: 12px; padding: 16px 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px;
-        }
-        .search-row { display: flex; gap: 8px; margin-bottom: 10px; }
-        .search-input {
-            flex:1; padding: 9px 14px; font-size: 14px;
-            border: 1.5px solid #e0e6ed; border-radius: 8px; outline: none;
-            transition: border-color .2s; background: #fff;
-        }
-        .search-input:focus { border-color: #1a73e8; box-shadow: 0 0 0 2px rgba(26,115,232,.12); }
-        .search-input::placeholder { color: #b0bac5; }
-        .search-btn {
-            padding: 9px 20px; font-size: 14px; font-weight: 500; color: #fff;
-            background: #1a73e8; border: none; border-radius: 8px; cursor: pointer;
-            white-space: nowrap; transition: background .2s;
-        }
-        .search-btn:hover { background: #1557b0; }
-        .search-reset-btn {
-            padding: 9px 16px; font-size: 13px; color: #5a6872;
-            background: #fff; border: 1.5px solid #e0e6ed; border-radius: 8px;
-            cursor: pointer; white-space: nowrap;
-        }
-        .search-reset-btn:hover { background: #f5f7fa; }
-
-        /* 时间筛选 */
-        .time-row {
-            display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;
-        }
-        .time-label { font-size: 13px; color: #8895a4; font-weight: 500; }
-        .time-input {
-            padding: 5px 8px; font-size: 13px; border: 1.5px solid #e0e6ed;
-            border-radius: 6px; outline: none; background: #fff;
-        }
-        .time-input:focus { border-color: #1a73e8; }
-        .time-sep { color: #a0aec0; font-size: 13px; }
-
-        /* 标签筛选 */
-        .tag-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
-        .tag-label { font-size: 13px; color: #8895a4; font-weight: 500; white-space: nowrap; }
-        .tag-chip {
-            display: inline-flex; align-items: center; padding: 3px 12px; font-size: 12px;
-            color: #5a6872; background: #f0f3f5; border: 1.5px solid transparent;
-            border-radius: 16px; cursor: pointer; transition: all .2s; user-select: none;
-        }
-        .tag-chip:hover { background: #e4e9ed; }
-        .tag-chip--active { font-weight: 500; border-width: 1.5px; border-style: solid; }
-
-        /* 分页 */
-        .pagination-row {
-            display: none; align-items: center; justify-content: center;
-            gap: 12px; margin-bottom: 12px;
-        }
-        .page-btn {
-            padding: 5px 14px; font-size: 13px; color: #1a73e8;
-            background: #fff; border: 1.5px solid #e0e6ed; border-radius: 6px;
-            cursor: pointer;
-        }
-        .page-btn:hover:not(:disabled) { background: #eef4fc; border-color: #1a73e8; }
-        .page-btn:disabled { opacity: .4; cursor: default; }
-        .page-info { font-size: 13px; color: #8895a4; }
-
-        /* ---- stats ---- */
-        .stats {
-            background: white; border-radius: 12px; padding: 20px 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 24px;
-            display: flex; gap: 40px;
-        }
-        .stats .stat-item { display: flex; flex-direction: column; }
-        .stats .stat-item .number { font-size: 24px; font-weight: 700; color: #1a73e8; }
-        .stats .stat-item .label { font-size: 14px; color: #888; }
-
-        /* ---- resource grid ---- */
-        .resource-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .resource-card {
-            background: white; border-radius: 12px; padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;
-        }
-        .resource-card:hover {
-            transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-        }
-        .resource-card .card-type {
-            display: inline-block; padding: 2px 12px; border-radius: 12px;
-            font-size: 12px; font-weight: 600; background: #e8f0fe; color: #1a73e8;
-            margin-bottom: 10px;
-        }
-        .resource-card .card-title {
-            font-size: 18px; font-weight: 600; margin-bottom: 8px; color: #1a2332;
-            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .resource-card .card-preview {
-            font-size: 14px; color: #777;
-            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
-            overflow: hidden; margin-bottom: 12px; line-height: 1.6;
-        }
-        .resource-card .card-footer {
-            display: flex; justify-content: space-between; align-items: center;
-            font-size: 12px; color: #aaa; border-top: 1px solid #f0f2f5; padding-top: 12px;
-        }
-        .resource-card .card-footer .tags { display: flex; gap: 6px; flex-wrap: wrap; }
-        .resource-card .card-footer .tag {
-            background: #f0f2f5; padding: 2px 10px; border-radius: 10px;
-            font-size: 11px; color: #666;
-        }
-
-        .empty-state { text-align: center; padding: 80px 20px; color: #aaa; }
-        .empty-state .icon { font-size: 64px; margin-bottom: 16px; }
-
-        /* ---- modal ---- */
-        .modal-overlay {
-            display: none; position: fixed; top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.5); justify-content: center; align-items: center;
-            z-index: 1000;
-        }
-        .modal-overlay.active { display: flex; }
-        .modal-content {
-            background: white; border-radius: 16px; padding: 32px;
-            max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;
-            position: relative;
-        }
-        .modal-content .close-btn {
-            position: absolute; top:16px; right:20px; font-size: 24px;
-            cursor: pointer; color: #aaa; background: none; border: none;
-        }
-        .modal-content .modal-title { font-size: 24px; font-weight: 700; margin-bottom: 12px; }
-        .modal-content .modal-type {
-            display: inline-block; padding: 4px 14px; border-radius: 12px;
-            font-size: 13px; background: #e8f0fe; color: #1a73e8; margin-bottom: 16px;
-        }
-        .modal-content .modal-body {
-            font-size: 15px; line-height: 1.8; color: #444;
-            white-space: pre-wrap; word-wrap: break-word;
-        }
-        .modal-content .modal-body img { max-width: 100%; border-radius: 8px; margin: 8px 0; }
-        .modal-content .modal-body .file-link {
-            display: inline-block; padding: 8px 16px; background: #e8f0fe;
-            border-radius: 8px; color: #1a73e8; text-decoration: none; margin-top: 8px;
-        }
-        .modal-content .modal-footer {
-            margin-top: 20px; padding-top: 16px; border-top: 1px solid #f0f2f5;
-            font-size: 13px; color: #999;
-        }
-
-        .loading { text-align: center; padding: 40px; color: #aaa; }
-        .loading .spinner {
-            display: inline-block; width: 32px; height: 32px;
-            border: 3px solid #e0e4ea; border-top: 3px solid #1a73e8;
-            border-radius: 50%; animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        @media (max-width: 600px) {
-            .header h1 { font-size: 20px; }
-            .stats { flex-wrap: wrap; gap: 16px; }
-            .resource-grid { grid-template-columns: 1fr; }
-            .search-row { flex-wrap: wrap; }
-            .search-btn { width: 100%; }
-        }
+        body { font-family: "Microsoft YaHei", sans-serif; background: #f5f7fa; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+        h1 { font-size: 24px; color: #1a2332; margin-bottom: 20px; border-bottom: 2px solid #eef2f7; padding-bottom: 12px; }
+        .resource-card { background: #fafbfc; border: 1px solid #e8ecf1; border-radius: 8px; padding: 16px 20px; margin-bottom: 12px; transition: 0.2s; }
+        .resource-card:hover { border-color: #b0c4de; }
+        .resource-title { font-size: 18px; font-weight: 600; color: #1a2332; display: flex; justify-content: space-between; align-items: center; }
+        .resource-meta { font-size: 13px; color: #7e8c9e; margin: 6px 0 10px 0; }
+        .resource-remark { background: #f0f4fe; padding: 6px 12px; border-radius: 6px; font-size: 14px; color: #2c3e50; margin: 8px 0; }
+        .btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+        .btn { padding: 6px 16px; border: none; border-radius: 6px; font-size: 13px; cursor: pointer; transition: 0.2s; background: #eef2f7; color: #1a2332; }
+        .btn-primary { background: #2b6cff; color: #fff; }
+        .btn-primary:hover { background: #1a56e0; }
+        .btn-success { background: #10b981; color: #fff; }
+        .btn-success:hover { background: #059669; }
+        .btn-danger { background: #ef4444; color: #fff; }
+        .btn-danger:hover { background: #dc2626; }
+        .btn-warning { background: #f59e0b; color: #fff; }
+        .btn-warning:hover { background: #d97706; }
+        .btn-fav { background: #f472b6; color: #fff; }
+        .btn-fav:hover { background: #ec4899; }
+        .btn-fav.active { background: #ec4899; box-shadow: 0 0 0 2px #f9a8d4; }
+        .empty-state { text-align: center; color: #9ca3af; padding: 40px 0; }
+        .loading { text-align: center; color: #6b7280; padding: 20px; }
+        .detail-panel { margin-top: 20px; border-top: 2px solid #eef2f7; padding-top: 20px; }
+        .detail-panel h3 { font-size: 16px; color: #374151; margin-bottom: 12px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div>
-                <h1>📦 AirBox</h1>
-                <span class="subtitle">我的资料库</span>
-            </div>
-        </div>
-
-        <!-- ZCode AI 生成 ===== 搜索区 ===== -->
-        <div class="search-section">
-            <div class="search-row">
-                <input type="text" id="searchInput" class="search-input"
-                    placeholder="搜索标题或内容..." autocomplete="off" />
-                <button id="searchBtn" class="search-btn">🔍 搜索</button>
-                <button id="resetBtn" class="search-reset-btn">↺ 显示全部</button>
-            </div>
-            <div class="time-row">
-                <span class="time-label">时间区间：</span>
-                <input type="date" id="startDate" class="time-input" title="起始日期" />
-                <span class="time-sep">—</span>
-                <input type="date" id="endDate" class="time-input" title="结束日期" />
-            </div>
-            <div class="tag-row">
-                <span class="tag-label">标签筛选：</span>
-                <span id="tagChips"></span>
-            </div>
-        </div>
-
-        <!-- ZCode AI 生成 ===== 分页 ===== -->
-        <div class="pagination-row" id="paginationRow">
-            <button id="prevPageBtn" class="page-btn" disabled>上一页</button>
-            <span class="page-info" id="pageInfo">第 1 页</span>
-            <button id="nextPageBtn" class="page-btn" disabled>下一页</button>
-        </div>
-
-        <div class="stats">
-            <div class="stat-item">
-                <span class="number" id="totalCount">0</span>
-                <span class="label">全部资料</span>
-            </div>
-            <div class="stat-item">
-                <span class="number" id="typeCount">0</span>
-                <span class="label">分类数</span>
-            </div>
-        </div>
-
-        <div id="resourceContainer">
-            <div class="loading">
-                <div class="spinner"></div>
-                <p>加载中...</p>
-            </div>
+        <h1>📦 AirBox · 资料管理</h1>
+        <div id="resourceList"><div class="loading">加载中...</div></div>
+        <div id="detailPanel" class="detail-panel" style="display:none;">
+            <h3>📄 资料详情</h3>
+            <div id="detailContent"></div>
         </div>
     </div>
-
-    <!-- 详情弹窗 -->
-    <div class="modal-overlay" id="detailModal">
-        <div class="modal-content">
-            <button class="close-btn" id="closeModal">✕</button>
-            <div class="modal-title" id="modalTitle">标题</div>
-            <div class="modal-type" id="modalType">类型</div>
-            <div class="modal-body" id="modalBody">内容</div>
-            <div class="modal-footer" id="modalFooter">创建时间：</div>
-        </div>
-    </div>
-
     <script src="script.js"></script>
 </body>
 </html>
