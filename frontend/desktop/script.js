@@ -4,7 +4,6 @@ console.log('AirBox Desktop loaded - 资料管理模块');
 let currentResourceId = null;
 const API_BASE = 'http://localhost:3000/api';
 
-// ===== 1. 获取并渲染资料列表 =====
 async function loadResourceList() {
     const listEl = document.getElementById('resourceList');
     try {
@@ -43,7 +42,6 @@ async function loadResourceList() {
     }
 }
 
-// ===== 2. 显示资料详情 =====
 async function showDetail(id) {
     currentResourceId = id;
     const panel = document.getElementById('detailPanel');
@@ -62,7 +60,7 @@ async function showDetail(id) {
                 <p><strong>备注：</strong>${r.remark || '无'}</p >
                 <p><strong>收藏状态：</strong>${r.favorite ? '⭐ 已收藏' : '☆ 未收藏'}</p >
                 <p><strong>创建时间：</strong>${r.created_at ? new Date(r.created_at).toLocaleString() : '未知'}</p >
-               ${r.file_url ? `<p><strong>文件：</strong><a href="${r.file_url} " target="_blank">查看文件</a ></p >` : ''}
+                ${r.file_url ? `<p><strong>文件：</strong><a href=" " target="_blank">查看文件</a ></p >` : ''}
             </div>
         `;
     } catch (err) {
@@ -70,7 +68,6 @@ async function showDetail(id) {
     }
 }
 
-// ===== 3. 修改标题 =====
 function editTitle(id) {
     const newTitle = prompt('请输入新的标题：');
     if (newTitle === null) return;
@@ -78,14 +75,12 @@ function editTitle(id) {
     updateResource(id, { title: newTitle.trim() });
 }
 
-// ===== 4. 添加/修改备注 =====
 function editRemark(id) {
     const newRemark = prompt('请输入备注内容：');
     if (newRemark === null) return;
     updateResource(id, { remark: newRemark.trim() || '' });
 }
 
-// ===== 5. 更新资源 =====
 async function updateResource(id, fields) {
     try {
         const res = await fetch(`${API_BASE}/manage/${id}`, {
@@ -106,7 +101,6 @@ async function updateResource(id, fields) {
     }
 }
 
-// ===== 6. 删除资料 =====
 function deleteResource(id) {
     if (!confirm('确定要删除该资料吗？此操作不可恢复！')) return;
     (async () => {
@@ -129,40 +123,26 @@ function deleteResource(id) {
     })();
 }
 
-// ===== 7. 切换收藏（修复竞态条件） =====
 function toggleFavorite(id) {
-    // 直接从卡片上取当前状态（本地翻转，避免竞态）
-    const card = document.querySelector(`.resource-card[data-id="${id}"]`);
-    if (!card) {
-        alert('卡片不存在，请刷新页面重试');
-        return;
-    }
-    const favBtn = card.querySelector('.btn-fav');
-    const isFav = favBtn.textContent.includes('已收藏');
-    const newStatus = isFav ? 0 : 1;
-
-    // 立即更新 UI（乐观更新）
-    favBtn.textContent = newStatus ? '⭐ 已收藏' : '☆ 收藏';
-    favBtn.classList.toggle('active', newStatus);
-
-    // 发送请求
-    fetch(`${API_BASE}/manage/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ favorite: newStatus })
-    })
-    .then(res => {
-        if (!res.ok) throw new Error('收藏状态更新失败');
-        // 刷新列表（从后端获取最新状态）
-        loadResourceList();
-        if (currentResourceId === id) showDetail(id);
-    })
-    .catch(err => {
-        alert('操作失败：' + err.message);
-        // 如果失败，还原 UI（重新加载列表）
-        loadResourceList();
-    });
+    (async () => {
+        try {
+            const resGet = await fetch(`${API_BASE}/resources/${id}`);
+            if (!resGet.ok) throw new Error('获取资料状态失败');
+            const r = await resGet.json();
+            const newStatus = r.favorite ? 0 : 1;
+            const resPut = await fetch(`${API_BASE}/manage/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ favorite: newStatus })
+            });
+            if (!resPut.ok) throw new Error('收藏状态更新失败');
+            loadResourceList();
+            if (currentResourceId === id) showDetail(id);
+        } catch (err) {
+            alert('操作失败：' + err.message);
+            console.error(err);
+        }
+    })();
 }
 
-// ===== 页面加载时执行 =====
 document.addEventListener('DOMContentLoaded', loadResourceList);

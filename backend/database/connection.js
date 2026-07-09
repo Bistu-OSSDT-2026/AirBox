@@ -44,19 +44,17 @@ function initializeDb() {
                 });
 
                 db.run(`
-                  CREATE TABLE IF NOT EXISTS resources (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT,
-    type TEXT,
-    content TEXT,
-    file_url TEXT,
-    tags TEXT,
-    file_size INTEGER DEFAULT 0,
-    remark TEXT,
-    favorite INTEGER DEFAULT 0,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-)
+                    CREATE TABLE IF NOT EXISTS resources (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        title TEXT,
+                        type TEXT,
+                        content TEXT,
+                        file_url TEXT,
+                        tags TEXT,
+                        file_size INTEGER DEFAULT 0,
+                        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                    )
                 `, (err) => {
                     if (err) {
                         reject(err);
